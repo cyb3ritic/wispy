@@ -2,6 +2,7 @@ import os # For os.system, to be replaced
 import time
 import subprocess # For direct subprocess.run where xterm logic is more complex
 from .utils import TextColor, InputColor, run_command, clear_screen
+from .logger import log_action, log_error
 
 def get_handshake(selected_interface):
     if not selected_interface:
@@ -87,6 +88,7 @@ def get_handshake(selected_interface):
         print(f"{TextColor.RED}[ERROR] An error occurred: {e}{TextColor.RESET}")
     finally:
         print(f"{TextColor.GREEN}[+] Handshake capture session ended. Check {path_prefix} files.{TextColor.RESET}")
+        log_action("Started handshake capture")
         input(f"{TextColor.YELLOW}Press Enter to return to the main menu...{TextColor.RESET}")
 
 
@@ -122,6 +124,7 @@ def deauth_all_clients(selected_interface):
         input(f"{TextColor.YELLOW}Attack is running in a separate window. Press Enter here to return to menu (attack will continue).{TextColor.RESET}")
     except Exception as e:
         print(f"{TextColor.RED}[ERROR] Failed to start deauthentication attack: {e}{TextColor.RESET}")
+        log_error("Failed to start deauthentication attack")
 
 
 def deauth_one_client(selected_interface):
@@ -155,6 +158,7 @@ def deauth_one_client(selected_interface):
         input(f"{TextColor.YELLOW}Attack is running in a separate window. Press Enter here to return to menu (attack will continue).{TextColor.RESET}")
     except Exception as e:
         print(f"{TextColor.RED}[ERROR] Failed to start deauthentication attack: {e}{TextColor.RESET}")
+        log_error("Failed to start deauthentication attack")
 
 
 def deauth_main(selected_interface):

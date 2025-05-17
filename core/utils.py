@@ -1,5 +1,6 @@
 import os
 import subprocess
+from .logger import log_action, log_output_summary, log_error, log_warning
 
 # Color codes for text
 class TextColor:
@@ -23,29 +24,27 @@ def clear_screen():
     os.system('clear' if os.name == 'posix' else 'cls')
 
 def run_command(command_str, capture_output=False, text=True, shell=True, check=False, display_output=False):
-    """
-    Runs a shell command using subprocess.run.
-    If display_output is True, command output is not captured but shown live.
-    Otherwise, captures and returns output if capture_output is True.
-    """
     print(f"{TextColor.YELLOW}[CMD] Executing: {command_str}{TextColor.RESET}")
+    log_action(f"Executing command: {command_str}")
     try:
         if display_output:
-            # For commands that need interactive output or are long-running in a terminal (like airodump-ng in xterm)
-            # We assume they manage their own output directly (e.g. opening xterm)
-            # For simpler direct commands that should display in current console:
-            # result = subprocess.run(command_str, shell=shell, check=check, text=text)
-            # For now, if display_output is true, we mimic os.system behavior for simplicity in refactor
-            return os.system(command_str) # This maintains original behavior for xterm calls etc.
-        
+            result = os.system(command_str)
+            log_output_summary(f"Command output (displayed live): {command_str}")
+            return result
         if capture_output:
             result = subprocess.run(command_str, shell=shell, capture_output=True, text=text, check=check)
+            log_output_summary(result.stdout if result.stdout else "")
             return result
         else:
-            # Runs command, output goes to stdout/stderr of this script
             result = subprocess.run(command_str, shell=shell, text=text, check=check)
-            return result # Returns CompletedProcess instance, not output
+            log_output_summary("Command executed, output sent to stdout/stderr.")
+            return result
     except subprocess.CalledProcessError as e:
+        log_error(f"Command '{e.cmd}' failed with exit code {e.returncode}")
+        if e.stdout:
+            log_output_summary(f"Stdout: {e.stdout}")
+        if e.stderr:
+            log_output_summary(f"Stderr: {e.stderr}")
         print(f"{TextColor.RED}[ERROR] Command '{e.cmd}' failed with exit code {e.returncode}{TextColor.RESET}")
         if e.stdout:
             print(f"{TextColor.RED}Stdout: {e.stdout}{TextColor.RESET}")
@@ -53,5 +52,6 @@ def run_command(command_str, capture_output=False, text=True, shell=True, check=
             print(f"{TextColor.RED}Stderr: {e.stderr}{TextColor.RESET}")
         return None
     except Exception as e:
+        log_error(f"Unexpected error running command '{command_str}': {e}")
         print(f"{TextColor.RED}[ERROR] An unexpected error occurred while running command: {command_str}\n{e}{TextColor.RESET}")
         return None
