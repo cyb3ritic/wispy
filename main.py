@@ -6,7 +6,8 @@ from core.interface_handler import (
     get_interface_mode, get_mac_address, mac_randomizer,
     start_monitor_mode, stop_monitor_mode
 )
-from core.scanner import scan_networks, scan_for_wps_networks
+from core.network_scanner import scan_networks
+from core.wps_scanner import scan_for_wps_networks
 from core.attacker import get_handshake, deauth_main, wps_network_attacks
 from core.cracker import (
     crack_handshake_custom, create_wordlist,
@@ -32,9 +33,8 @@ def display_banner():
                                                                    
 """ + TextColor.RED + """
 WiSpy: Wireless Network Security Scanner
-Author : Debajyoti0-0 (Original) & Gemini (Refactor/Upgrade)
-Version: 1.1.0 (Refactored)
-Github : https://github.com/Debajyoti0-0/ (Original Project)""" + TextColor.RESET)
+Version: 1.1.0
+""" + TextColor.RESET)
 
 def display_main_menu(interface_name, interface_mode_val, mac_address_val):
     clear_screen()

@@ -11,7 +11,7 @@ def detect_weak_encryption(selected_interface):
     print("Functionality to be added: Scan networks and highlight those using WEP or WPA(TKIP).")
     print(f"Would use: {selected_interface}")
     # For now, it could just launch a general scan and remind user to look for weak types.
-    from .scanner import scan_networks # Local import to avoid circular dependency at module load
+    from .network_scanner import scan_networks # Local import to avoid circular dependency at module load
     print(f"{TextColor.CYAN}Launching a general network scan. Please manually check for weak encryption types (WEP, WPA TKIP).{TextColor.RESET}")
     scan_networks(selected_interface) # Re-use existing scan
     input(f"{TextColor.YELLOW}Press Enter to return to the main menu...{TextColor.RESET}")

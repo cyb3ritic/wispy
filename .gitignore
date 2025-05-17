@@ -8,6 +8,10 @@ __pycache__/
 logs/
 *.log
 
+# Reports
+reports/
+*.report
+
 # Virtual environments
 venv/
 env/
