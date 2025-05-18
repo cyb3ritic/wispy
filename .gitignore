@@ -1,23 +1,21 @@
-# Python cache and compiled files
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-
-# Logs
-logs/
-*.log
-
-# Reports
-reports/
-*.report
+*.so
 
 # Virtual environments
-venv/
+myenv/
 env/
+venv/
 ENV/
 .venv/
-.python-version
+
+# Logs and reports
+logs/
+*.log
+*.html
 
 # OS files
 .DS_Store
@@ -25,24 +23,17 @@ Thumbs.db
 
 # IDE/editor files
 .vscode/
-.idea/
 *.swp
+*.swo
 
-# Test/coverage output
+# Test/coverage
 .coverage
-htmlcov/
-.tox/
-.nosetests.xml
+.cache/
+.pytest_cache/
+nosetests.xml
 coverage.xml
 *.cover
 
-# Distribution/build
-build/
-dist/
-*.egg-info/
-*.egg
-
-# Backup files
-*~
+# Misc
 *.bak
 *.tmp
